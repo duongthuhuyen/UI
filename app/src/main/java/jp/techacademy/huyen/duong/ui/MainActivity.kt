@@ -2,6 +2,7 @@ package jp.techacademy.huyen.duong.ui
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -25,24 +26,8 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         binding.button2.setOnClickListener(this)
         binding.button3.setOnClickListener(this)
         binding.button4.setOnClickListener(this)
-
-        // List view
-        val list = ArrayList<Map<String,String>>()
-        for (i in 1..5) {
-            var map = HashMap<String,String>()
-            map["main"] = "メイン　$i"
-            map["sub"] = "サブ　$i"
-            list.add(map)
-        }
-        val adapter = SimpleAdapter(this,
-            list,android.R.layout.simple_list_item_2 ,
-            arrayOf("main","sub"),
-            intArrayOf(android.R.id.text1,android.R.id.text2)
-        )
-        binding.listview.adapter = adapter
-        binding.listview.setOnItemClickListener(OnItemClickListener({
-            parent,view,position, id -> Log.d(MY_TAG,"ポジション：$position")
-        }))
+        binding.button5.setOnClickListener(this)
+        binding.button6.setOnClickListener(this)
     }
 
     override fun onClick(view: View?) {
@@ -51,6 +36,8 @@ class MainActivity : AppCompatActivity(), OnClickListener {
             R.id.button2 -> showAleartDialog()
             R.id.button3 -> showTimePickerDialog()
             R.id.button4 -> showDatePickerDialog()
+            R.id.button5 -> showImageView()
+            R.id.button6 -> showListView(binding.edittext.text.toString())
         }
     }
     // aleart dialog
@@ -84,6 +71,17 @@ class MainActivity : AppCompatActivity(), OnClickListener {
             _,year,month,date -> Log.d(MY_TAG,"$date / $month / $year")
         }),2023,11,13)// month: 0-11
         datePickerDialog.show()
+    }
+    //show image view
+    private fun showImageView() {
+        val intent = Intent(this, SecondActivity::class.java)
+        startActivity(intent)
+    }
+    //show List view
+    private fun showListView(value : String) {
+        val intent = Intent(this, ThreeActivity::class.java)
+        intent.putExtra("value",value)
+        startActivity(intent)
     }
 }
 
